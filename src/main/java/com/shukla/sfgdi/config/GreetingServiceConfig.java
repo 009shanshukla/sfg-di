@@ -2,11 +2,11 @@ package com.shukla.sfgdi.config;
 
 import com.shukla.sfgdi.services.CatPetService;
 import com.shukla.sfgdi.services.DogPetService;
-import guru.springframework.sfgdi.services.ConstructorGreetingService;
-import guru.springframework.sfgdi.services.PropertyInjectedGreetingService;
-import guru.springframework.sfgdi.services.SetterInjectedGreetingService;
+import guru.springframework.sfgdi.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
 /**
  * create by shuklash on 28/05/23
@@ -27,5 +27,23 @@ public class GreetingServiceConfig {
     @Bean
     SetterInjectedGreetingService setterInjectedGreetingService(){
         return new SetterInjectedGreetingService();
+    }
+
+    @Primary
+    @Bean
+    PrimaryGreetingService primaryGreetingService(){
+        return new PrimaryGreetingService();
+    }
+
+    @Profile({"ES", "default"})
+    @Bean
+    I18NSpanishService i18nService(){
+        return new I18NSpanishService();
+    }
+
+    @Profile("EN")
+    @Bean("i18nService")
+    I18nEnglishGreetingService i18nEnglishGreetingService(){
+        return new I18nEnglishGreetingService();
     }
 }
