@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: cat,EN
+
+shukla:
+  user: ymlUATUser
+  password: ymlUATpassword
+  jdbcurl: ymlUATJDBCUrl

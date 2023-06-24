@@ -1,53 +1,84 @@
 package guru.springframework.sfgdi;
 
+import guru.springframework.sfgdi.config.SfgConfiguration;
+import guru.springframework.sfgdi.config.SfgConstructorBindingConfiguration;
 import guru.springframework.sfgdi.controllers.*;
+import guru.springframework.sfgdi.fakedatasource.FakeDataSource;
 import guru.springframework.sfgdi.services.PrototypeBean;
 import guru.springframework.sfgdi.services.SingletonBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class SfgDiApplication {
 
-	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(SfgDiApplication.class, args);
+    public static void main(String[] args) {
+        ApplicationContext ctx = SpringApplication.run(SfgDiApplication.class
+                , args);
 
-		PetController petController = ctx.getBean("petController", PetController.class);
-		System.out.println("--- The Best Pet is ---");
-		System.out.println(petController.whichPetIsTheBest());
+        PetController petController = ctx.getBean("petController",
+                PetController.class);
+        System.out.println("--- The Best Pet is ---");
+        System.out.println(petController.whichPetIsTheBest());
 
-		I18nController i18nController = (I18nController) ctx.getBean("i18nController");
-		System.out.println(i18nController.sayHello());
+        I18nController i18nController = (I18nController) ctx.getBean(
+                "i18nController");
+        System.out.println(i18nController.sayHello());
 
-		MyController myController = (MyController) ctx.getBean("myController");
+        MyController myController = (MyController) ctx.getBean("myController");
 
-		System.out.println("------- Primary Bean");
-		System.out.println(myController.sayHello());
+        System.out.println("------- Primary Bean");
+        System.out.println(myController.sayHello());
 
-		System.out.println("------ Property");
-		PropertyInjectedController propertyInjectedController = (PropertyInjectedController) ctx.getBean("propertyInjectedController");
-		System.out.println(propertyInjectedController.getGreeting());
+        System.out.println("------ Property");
+        PropertyInjectedController propertyInjectedController =
+                (PropertyInjectedController) ctx.getBean(
+                        "propertyInjectedController");
+        System.out.println(propertyInjectedController.getGreeting());
 
-		System.out.println("--------- Setter");
-		SetterInjectedController setterInjectedController = (SetterInjectedController) ctx.getBean("setterInjectedController");
-		System.out.println(setterInjectedController.getGreeting());
+        System.out.println("--------- Setter");
+        SetterInjectedController setterInjectedController =
+                (SetterInjectedController) ctx.getBean(
+                        "setterInjectedController");
+        System.out.println(setterInjectedController.getGreeting());
 
-		System.out.println("-------- Constructor" );
-		ConstructorInjectedController constructorInjectedController = (ConstructorInjectedController) ctx.getBean("constructorInjectedController");
-		System.out.println(constructorInjectedController.getGreeting());
+        System.out.println("-------- Constructor");
+        ConstructorInjectedController constructorInjectedController =
+                (ConstructorInjectedController) ctx.getBean(
+                        "constructorInjectedController");
+        System.out.println(constructorInjectedController.getGreeting());
 
-		System.out.println("-------- Beans Scope");
-		SingletonBean singletonBean1 = ctx.getBean(SingletonBean.class);
-		System.out.println(singletonBean1.getMyScope());
-		SingletonBean singletonBean2 = ctx.getBean(SingletonBean.class);
-		System.out.println(singletonBean2.getMyScope());
+        System.out.println("-------- Beans Scope");
+        SingletonBean singletonBean1 = ctx.getBean(SingletonBean.class);
+        System.out.println(singletonBean1.getMyScope());
+        SingletonBean singletonBean2 = ctx.getBean(SingletonBean.class);
+        System.out.println(singletonBean2.getMyScope());
 
-		PrototypeBean prototypeBean1 = ctx.getBean(PrototypeBean.class);
-		System.out.println(prototypeBean1.getMyScope());
-		PrototypeBean prototypeBean2 = ctx.getBean(PrototypeBean.class);
-		System.out.println(prototypeBean2.getMyScope());
-	}
+        PrototypeBean prototypeBean1 = ctx.getBean(PrototypeBean.class);
+        System.out.println(prototypeBean1.getMyScope());
+        PrototypeBean prototypeBean2 = ctx.getBean(PrototypeBean.class);
+        System.out.println(prototypeBean2.getMyScope());
+
+        System.out.println("External Properties from PropertySource");
+        FakeDataSource fakeDataSource = ctx.getBean(FakeDataSource.class);
+        System.out.println(fakeDataSource.getUserName());
+        System.out.println(fakeDataSource.getPassword());
+        System.out.println(fakeDataSource.getJdbcurl());
+
+        System.out.println("External Properties binding");
+        SfgConfiguration sfgConfiguration = ctx.getBean(SfgConfiguration.class);
+        System.out.println(sfgConfiguration.getUser());
+        System.out.println(sfgConfiguration.getPassword());
+        System.out.println(sfgConfiguration.getJdbcurl());
+
+        System.out.println("External Properties constructor binding");
+        SfgConstructorBindingConfiguration sfgConstructorBindingConfiguration =
+                ctx.getBean(SfgConstructorBindingConfiguration.class);
+        System.out.println(sfgConstructorBindingConfiguration.getUser());
+        System.out.println(sfgConstructorBindingConfiguration.getPassword());
+        System.out.println(sfgConstructorBindingConfiguration.getJdbcurl());
+
+    }
 
 }

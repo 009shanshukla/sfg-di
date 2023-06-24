@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active:
+      - cat
+      - EN
+      - prod
+
+shukla:
+  user: ymlUser
+  password: ymlpassword
+  jdbcurl: ymlJDBCUrl
+
+---
+
+spring:
+  profiles: prod
+
+shukla:
+  user: ymlProdUser
+  password: ymplProdPassword
+  jdbcurl: ymplProdJdbcUrl
